@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dreamer Hua - 个人主页</title>
+    <style>
+        /* --- 全局样式重置与基础设定 --- */
+        :root {
+            --primary-color: #2563eb; /* 主题蓝色 */
+            --text-primary: #1f2937;   /* 主要文字颜色 (深灰) */
+            --text-secondary: #6b7280; /* 次要文字颜色 (中灰) */
+            --bg-color: #ffffff;       /* 背景白 */
+            --card-bg: #f9fafb;       /* 卡片背景色 (非常浅的灰) */
+            --border-color: #e5e7eb;   /* 边框颜色 */
+        }
+
+        html {
+            scroll-behavior: smooth; /* 实现平滑滚动 */
+            scroll-padding-top: 80px; /* 为固定的导航栏留出空间 */
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", "PingFang SC", "Microsoft YaHei", sans-serif;
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #1d4ed8;
+        }
+
+        h1, h2, h3 {
+            margin-top: 0;
+            font-weight: 600;
+        }
+
+        /* --- 顶部个人简介区 (Hero Section) --- */
+        .hero {
+            display: flex;
+            align-items: flex-start;
+            gap: 40px;
+            padding: 40px 0;
+        }
+
+        .hero-avatar {
+            width: 120px;
+            height: 120px;
+            background-color: var(--border-color); /* 占位符背景色 */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            flex-shrink: 0; /* 防止头像被压缩 */
+            overflow: hidden; /* 如果使用图片，防止图片溢出 */
+        }
+        
+        /* 如果你有图片链接，可以替换掉下面的注释 */
+        /*
+        .hero-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        */
+
+        .hero-info {
+            padding-top: 8px;
+        }
+
+        .hero-info h1 {
+            font-size: 2.5rem; /* 40px */
+            margin-bottom: 8px;
+        }
+
+        .hero-info .title {
+            font-size: 1.25rem; /* 20px */
+            color: var(--text-secondary);
+            font-weight: 400;
+            margin-bottom: 20px;
+        }
+        
+        .hero-tags {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .hero-tags li {
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            font-size: 1rem;
+        }
+        
+        .hero-tags li::before {
+            content: '✦';
+            color: var(--primary-color);
+            margin-right: 12px;
+            font-size: 14px;
+        }
+
+        .social-links {
+            margin-top: 24px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .social-links a {
+            color: var(--text-secondary);
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s ease-in-out;
+        }
+        .social-links a:hover {
+            color: var(--primary-color);
+        }
+        .social-links svg {
+            width: 18px;
+            height: 18px;
+        }
+        
+        /* --- 项目作品集总览 --- */
+        .projects-overview {
+            padding-top: 60px;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+        
+        .section-subtitle {
+             color: var(--text-secondary);
+             margin-bottom: 32px;
+        }
+
+        /* --- 项目导航 --- */
+        .project-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 48px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 24px;
+        }
+
+        .nav-tag {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            color: var(--text-primary);
+            background-color: transparent;
+            border: 1px solid transparent;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .nav-tag:hover {
+            background-color: #f3f4f6;
+        }
+
+        .nav-tag.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        /* --- 项目展示区 --- */
+        .project-section {
+            padding-top: 24px; /* 用于抵消导航栏高度 */
+        }
+        
+        .project-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 24px;
+        }
+        
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 24px;
+        }
+
+        .project-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            background-color: #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .card-icon svg {
+            width: 28px;
+            height: 28px;
+            color: var(--text-secondary);
+        }
+
+        .card-title {
+            font-size: 1.125rem; /* 18px */
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .card-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem; /* 14.4px */
+            flex-grow: 1; /* 让描述占据多余空间，使"了解更多"保持在底部 */
+        }
+
+        .card-footer {
+            margin-top: 20px;
+        }
+
+        .card-footer a {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        /* --- 响应式设计 --- */
+        @media (max-width: 768px) {
+            .hero {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 24px;
+            }
+            .hero-info {
+                padding-top: 0;
+            }
+            .hero-info h1 {
+                font-size: 2rem;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- ======================= -->
+        <!--   顶部个人简介区 (Hero)  -->
+        <!-- ======================= -->
+        <header class="hero">
+            <div class="hero-avatar">
+                <!-- 头像: 建议尺寸 120x120。当前为占位符。 -->
+                <!-- 如果有图片链接，取消下面的注释并替换 src -->
+                <!-- <img src="你的头像链接地址" alt="Dreamer Hua Avatar"> -->
+                DH
+            </div>
+            <div class="hero-info">
+                <h1>Dreamer Hua</h1>
+                <p class="title">产品经理 / 全栈开发者 / Ex大厂工程师</p>
+                <ul class="hero-tags">
+                    <!-- 在这里修改你的个人标签 -->
+                    <li>一个热衷于探索AI技术落地的学习者</li>
+                    <li>懂点商业的独立开发者</li>
+                    <!-- <li>可以添加第三个标签</li> -->
+                </ul>
+                <div class="social-links">
+                    <!-- 在这里替换你的社交媒体链接 -->
+                    <a href="https://github.com/DreamerHua" target="_blank">
+                        <svg viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+                        <span>GitHub</span>
+                    </a>
+                    <a href="#" target="_blank">
+                       <svg viewBox="0 0 1024 1024" fill="currentColor"><path d="M830.2 396.5c0-44.5-23-84.3-61.9-106.3-4.1-2.4-5.2-7.8-2.8-11.9l27.1-45.9c2.4-4.1 0-9.5-4.8-10.7-68-17.2-114.2-76-114.2-143.4 0-41.5 33.7-75.2 75.2-75.2s75.2 33.7 75.2 75.2c0 29.5 17.1 55.4 42.5 68.1 4.2 2.1 9.4 0 11.4-4.2l20.2-40.3c2-4.2 0-9.4-4.2-11.4C795.3 60.1 727.6 16 649 16c-113.8 0-206.2 89-206.2 198.6 0 85.3 53.9 158.4 128.3 186.4 3.9 1.5 5.7 6 3.9 9.8L548 466.7c-1.8 3.9 0.4 8.5 4.6 9.8l213.2 64.2c4.2 1.3 8.5-1.3 9.4-5.6l21.3-95.6c0.8-3.9-1.8-7.6-5.3-9z m-356.1-49.8c-41.5 0-75.2-33.7-75.2-75.2s33.7-75.2 75.2-75.2 75.2 33.7 75.2 75.2-33.7 75.2-75.2 75.2zM983.3 531.5L900 503.3c-4-1.2-8.3 1.2-9.5 5.2L741.9 932.9c-1.2 4 1.2 8.3 5.2 9.5l83.3 28.2c4 1.2 8.3-1.2 9.5-5.2l148.6-424.4c1.3-4-1.1-8.3-5.2-9.5z m-465-17.3c-41.5 0-75.2-33.7-75.2-75.2s33.7-75.2 75.2-75.2 75.2 33.7 75.2 75.2-33.7 75.2-75.2 75.2zM327.3 544.7c-44.5 0-84.3-23-106.3-61.9-2.4-4.1-7.8-5.2-11.9-2.8l-45.9 27.1c-4.1 2.4-9.5 0-10.7-4.8-17.2-68-76-114.2-143.4-114.2-41.5 0-75.2 33.7-75.2 75.2s33.7 75.2 75.2 75.2c29.5 0 55.4 17.1 68.1 42.5 2.1 4.2 0 9.4-4.2 11.4l-40.3 20.2c-4.2 2-9.4 0-11.4-4.2C60.1 528.9 16 461.2 16 382.6 16 268.8 105 176.4 214.6 176.4c85.3 0 158.4 53.9 186.4 128.3 1.5 3.9 6 5.7 9.8 3.9l55.8-27c3.9-1.8 8.5 0.4 9.8 4.6l64.2 213.2c1.3 4.2-1.3 8.5-5.6 9.4l-95.6 21.3c-3.8 0.9-7.5-1.7-9-5.3z"></path></svg>
+                        <span>知乎</span>
+                    </a>
+                    <a href="#" target="_blank">
+                        <svg viewBox="0 0 1024 1024" fill="currentColor"><path d="M910.4 322.2c-15.3-56.2-63.7-100.2-123.6-111.3C734.1 200 621.5 200 512.4 200s-221.7 0-274.2 10.9C178.1 222 129.7 266 114.4 322.2S98.9 450.6 98.9 512.3s15.5 189.7 30.8 245.9c15.3 56.2 63.7 100.2 123.6 111.3 52.5 10.9 165.1 10.9 274.2 10.9s221.7 0 274.2-10.9c60-11.1 108.4-55.1 123.6-111.3 15.3-56.2 30.8-124.6 30.8-190.8s-15.5-189.7-30.8-245.9zM425.2 654.4V370.2l271.7 142.1-271.7 142.1z"></path></svg>
+                        <span>Bilibili</span>
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <!-- ======================= -->
+        <!--   项目作品集           -->
+        <!-- ======================= -->
+        <main class="projects-overview">
+            <h2 class="section-title">项目作品</h2>
+            <p class="section-subtitle">我的个人作品与探索，从信息系统到AI应用。</p>
+
+            <!-- --- 项目导航标签 --- -->
+            <nav class="project-nav">
+                <!-- 链接到下面的项目版块 -->
+                <a href="#visualisation" class="nav-tag">可视化</a>
+                <a href="#research" class="nav-tag">深度调研报告</a>
+                <a href="#system" class="nav-tag">信息系统</a>
+                <a href="#ai-ppt" class="nav-tag">AI PPT</a>
+                <a href="#other" class="nav-tag">其他</a>
+            </nav>
+
+            <!-- --- 可视化项目区 --- -->
+            <section id="visualisation" class="project-section">
+                <h3>可视化</h3>
+                <div class="project-grid">
+                    <!-- 项目卡片 1 -->
+                    <div class="project-card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <!-- 通用图标 -->
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z" /></svg>
+                            </div>
+                            <h4 class="card-title">能力可视化</h4>
+                        </div>
+                        <p class="card-description">由我得心应手的能力构成的星云图。</p>
+                        <div class="card-footer">
+                            <a href="#" target="_blank">了解更多 &rarr;</a>
+                        </div>
+                    </div>
+                    <!-- 如果有更多“可视化”项目，在这里添加更多 card -->
+                </div>
+            </section>
+            
+            <!-- --- 深度调研报告项目区 --- -->
+            <section id="research" class="project-section">
+                <h3>深度调研报告</h3>
+                <div class="project-grid">
+                    <!-- 暂无项目，这是一个占位符 -->
+                </div>
+            </section>
+            
+            <!-- --- 信息系统项目区 --- -->
+            <section id="system" class="project-section">
+                <h3>信息系统</h3>
+                <div class="project-grid">
+                     <!-- 暂无项目，这是一个占位符 -->
+                </div>
+            </section>
+
+            <!-- --- AI PPT项目区 --- -->
+            <section id="ai-ppt" class="project-section">
+                <h3>AI PPT</h3>
+                <div class="project-grid">
+                    <!-- 项目卡片 2 -->
+                    <div class="project-card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                 <!-- 通用图标 -->
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z" /></svg>
+                            </div>
+                            <h4 class="card-title">微党课-科技创新引领新质生产力发展</h4>
+                        </div>
+                        <p class="card-description">没有亲自撰写任何一页内容的PPT。</p>
+                        <div class="card-footer">
+                            <a href="#" target="_blank">了解更多 &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- --- 其他项目区 --- -->
+            <section id="other" class="project-section">
+                <h3>其他</h3>
+                <div class="project-grid">
+                     <!-- 暂无项目，这是一个占位符 -->
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        // --- 用于页面滚动时，动态高亮导航标签的脚本 ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('.project-section');
+            const navLinks = document.querySelectorAll('.nav-tag');
+
+            const observerOptions = {
+                root: null, // 视口
+                rootMargin: '0px',
+                threshold: 0.4 // 40% 的部分可见时触发
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href').substring(1) === entry.target.id) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+            
+            // 初始加载时，激活第一个标签
+            if(navLinks.length > 0) {
+                 // 找到第一个有内容的section
+                let firstSectionWithContent = Array.from(sections).find(s => s.querySelector('.project-card'));
+                if (firstSectionWithContent) {
+                    let firstActiveLink = document.querySelector(`.nav-tag[href="#${firstSectionWithContent.id}"]`);
+                    if(firstActiveLink) firstActiveLink.classList.add('active');
+                } else {
+                     navLinks[0].classList.add('active');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
