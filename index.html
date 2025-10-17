@@ -301,18 +301,20 @@
             </div>
             <div class="hero-info">
                 <h1>Dreamer Hua</h1>
-                <!-- <p class="title">新时代产品经理 / Ex大厂工程师</p> -->
+                <p class="title">新时代产品经理 / Ex大厂工程师</p>
                 <ul class="hero-tags">
-                    <!-- 在这里修改你的个人标签 -->
-                    <li>🎯 <span style="font-weight: bold;">个人定位</span>：致力于将前沿技术落地为商业解决方案的<span style="font-weight: bold;">🥇金牌</span>工程师</li>
-                    <!-- <li>🏛️ <span style="font-weight: bold;">能力支柱</span>：🚀技术商业化落地；🔗个体商业系统闭环；⚙️高效能系统构建</li>
-                    <li>🧭 <span style="font-weight: bold;">实践领域</span>：AI应用，知识管理，超级个体，职业发展，商业模式洞察，效率工程</li>
-                    <li>v0.5 不痛快，自我怀疑</li>
-                    <li>v1.0 自信，在自由状态下能完成大工程</li>
-                    <li>v2.0 能力谱识别与应用</li>
-                    <li>v3.0 能力变现</li> -->
-                    <!-- <li>可以添加第三个标签</li> -->
-                </ul>
+                     <!-- 在这里修改你的个人标签 -->
+                     <li>🎯 <span style="font-weight: bold;">个人定位</span>：致力于将前沿技术落地为商业解决方案的<span style="font-weight: bold;">🥇金牌</span>实干家</li>
+                     <li>🏛️ <span style="font-weight: bold;">能力支柱</span>：🚀技术商业化落地；🔗商业系统闭环；⚙️高效能系统构建</li>
+                     <li>🧭 <span style="font-weight: bold;">实践领域</span>：AI应用，知识管理，职业发展，商业模式洞察，效率工程</li>
+                 </ul>
+                 
+                 <!-- 名人名言展示区 -->
+                  <div class="quote-container" style="margin: 20px 0; padding: 15px; border-left: 4px solid var(--primary-color); background-color: var(--card-bg); border-radius: 4px; position: relative;">
+                      <p id="quote-text" style="font-style: italic; margin: 0 0 8px 0; color: var(--text-primary);">"未来已来，只是分布不均。"</p>
+                      <p id="quote-author" style="text-align: right; margin: 0; font-size: 0.9rem; color: var(--text-secondary);">— 威廉·吉布森</p>
+                      <button id="new-quote-btn" style="position: absolute; right: 10px; top: 10px; background: transparent; border: none; cursor: pointer; color: var(--text-secondary); font-size: 16px;" title="换一条名言" aria-label="换一条名言">🔄</button>
+                  </div>
                 <div class="social-links">
                     <!-- 在这里替换你的社交媒体链接 -->
                     <a href="https://github.com/DreamerHua" target="_blank">
@@ -336,7 +338,7 @@
         <!-- ======================= -->
         <main class="projects-overview">
             <h2 class="section-title">项目作品</h2>
-            <p class="section-subtitle">我的个人作品与AI探索，以及一些感悟。</p>
+            <p class="section-subtitle">精选我的部分作品、AI探索经历，以及一些感悟。</p>
 
             <!-- --- 项目导航标签 --- -->
             <nav class="project-nav">
@@ -549,6 +551,55 @@
                 } else {
                      navLinks[0].classList.add('active');
                 }
+            }
+            
+            // --- 名人名言随机切换功能 ---
+            const quotes = [
+                { text: "未来已来，只是分布不均。", author: "威廉·吉布森" },
+                { text: "如果你想要造一艘船，先不要雇人收集木头，也不要分配任务，而是去激发他们对浩瀚无垠的大海的向往。", author: "安东尼·德·圣埃克苏佩里" },
+                { text: "多数人为了逃避思考，愿意做任何事。", author: "王兴" },
+                { text: "种一棵树最好的时间是十年前，其次是现在。", author: "丹比萨·莫约" },
+                { text: "我们的征途是星辰大海。", author: "刘慈欣" },
+                { text: "世界上只有一种英雄主义，那就是在认清生活真相之后依然热爱生活。", author: "罗曼·罗兰" },
+                { text: "不要因为走得太远，忘了我们为什么出发。", author: "陈独秀" },
+            ];
+            const quoteText = document.getElementById('quote-text');
+            const quoteAuthor = document.getElementById('quote-author');
+            const newQuoteBtn = document.getElementById('new-quote-btn');
+            
+            // 随机获取一条名言
+            function getRandomQuote() {
+                const randomIndex = Math.floor(Math.random() * quotes.length);
+                return quotes[randomIndex];
+            }
+            
+            // 更新名言显示
+            function updateQuote() {
+                const quote = getRandomQuote();
+                
+                // 添加淡出效果
+                quoteText.style.opacity = 0;
+                quoteAuthor.style.opacity = 0;
+                
+                setTimeout(() => {
+                    quoteText.textContent = `"${quote.text}"`;
+                    quoteAuthor.textContent = `— ${quote.author}`;
+                    
+                    // 添加淡入效果
+                    quoteText.style.opacity = 1;
+                    quoteAuthor.style.opacity = 1;
+                }, 300);
+            }
+            
+            // 为按钮添加点击事件
+            if (newQuoteBtn) {
+                newQuoteBtn.addEventListener('click', updateQuote);
+            }
+            
+            // 添加CSS过渡效果
+            if (quoteText && quoteAuthor) {
+                quoteText.style.transition = 'opacity 0.3s ease';
+                quoteAuthor.style.transition = 'opacity 0.3s ease';
             }
         });
     </script>
