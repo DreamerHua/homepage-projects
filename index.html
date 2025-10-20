@@ -612,9 +612,24 @@
             const quoteAuthor = document.getElementById('quote-author');
             const newQuoteBtn = document.getElementById('new-quote-btn');
             
-            // 随机获取一条名言
+            // 记录上一次显示的名言索引
+            let lastQuoteIndex = -1;
+            
+            // 随机获取一条名言（确保不会连续出现相同的名言）
             function getRandomQuote() {
-                const randomIndex = Math.floor(Math.random() * quotes.length);
+                // 如果只有一条名言，直接返回
+                if (quotes.length === 1) {
+                    return quotes[0];
+                }
+                
+                let randomIndex;
+                // 确保新的随机索引与上一次不同
+                do {
+                    randomIndex = Math.floor(Math.random() * quotes.length);
+                } while (randomIndex === lastQuoteIndex);
+                
+                // 更新上一次的索引
+                lastQuoteIndex = randomIndex;
                 return quotes[randomIndex];
             }
             
